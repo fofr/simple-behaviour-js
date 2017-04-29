@@ -2,6 +2,9 @@
   "name": "simple-behaviour-js",
   "version": "0.0.1",
   "description": "Re-usable modules with limited scope and instantiation pattern",
+  "scripts": {
+    "test": "grunt jasmine"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/fofr/simple-behaviour-js.git"
