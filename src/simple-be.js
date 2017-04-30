@@ -29,8 +29,8 @@
             started = element.data('module-started');
 
         if (typeof SimpleBe.Modules[type] === "function" && !started) {
-          module = new SimpleBe.Modules[type]();
-          module.start(element);
+          module = new SimpleBe.Modules[type](element);
+          module.start();
           element.data('module-started', true);
         }
       }
