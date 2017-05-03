@@ -1,6 +1,6 @@
 {
   "name": "simple-behaviour-js",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Re-usable modules with limited scope and instantiation pattern",
   "scripts": {
     "test": "grunt jasmine"

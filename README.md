@@ -22,7 +22,7 @@ $(document).ready(function(){
 
 This will attempt to find and start all modules in the page. In this example it will look for a module at `SimpleBe.Modules.SomeModule`. The data attribute gets converted to _PascalCase_.
 
-The module will be instantiated and then its `start` method called. The HTML element with the `data-module` attribute is passed as the first argument to the module. Modules act only within their containing elements.
+The module will be instantiated and then its `start` method called. The HTML element with the `data-module` attribute is passed as the first argument to the module initialiser. Modules act only within their containing elements.
 
 ```javascript
 module = new SimpleBe.Modules[type]()
@@ -47,8 +47,8 @@ The simplest module looks like:
 ;(function(Modules) {
   'use strict'
 
-  Modules.SomeModule = function() {
-    this.start = function($element) {
+  Modules.SomeModule = function($element) {
+    this.start = function() {
       // module code
     }
   }
@@ -75,7 +75,7 @@ Make it clear where a javascript module will be applying behaviour:
 Beginning with a set of event listeners indicates the module’s intentions.
 
 ```js
-this.start = function($element) {
+this.start = function() {
   $element.on('click', '.js-toggle', toggle)
   $element.on('click', '.js-cancel', cancel)
 }

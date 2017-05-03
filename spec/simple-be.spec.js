@@ -33,9 +33,8 @@ describe('Simple behaviour', function() {
 
     beforeEach(function() {
       callback = jasmine.createSpy();
-      SimpleBe.Modules.TestAlertModule = function() {
-        var that = this;
-        that.start = function(element) {
+      SimpleBe.Modules.TestAlertModule = function(element) {
+        this.start = function() {
           callback(element);
         }
       };
@@ -62,7 +61,7 @@ describe('Simple behaviour', function() {
       expect(callback.calls.count()).toBe(1);
     });
 
-    it('passes the HTML element to the module\'s start method', function() {
+    it('passes the HTML element when initialising a module', function() {
       var module = $('<div data-module="test-alert-module"></div>'),
           container = $('<h1></h1>').append(module);
 
