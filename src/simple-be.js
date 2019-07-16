@@ -1,4 +1,4 @@
-(function($, root) {
+(function(root) {
   "use strict";
   root.SimpleBe = root.SimpleBe || {};
   SimpleBe.Modules = SimpleBe.Modules || {};
@@ -7,13 +7,13 @@
     find: function(container) {
       var modules,
           moduleSelector = '[data-module]',
-          container = container || $('body');
+          container = container || document.body;
 
-      modules = container.find(moduleSelector);
+      modules = Array.prototype.slice.call(container.querySelectorAll(moduleSelector));
 
       // Container could be a module too
-      if (container.is(moduleSelector)) {
-        modules = modules.add(container);
+      if (container.matches(moduleSelector)) {
+        modules.push(container);
       }
 
       return modules;
@@ -24,14 +24,14 @@
 
       for (var i = 0, l = modules.length; i < l; i++) {
         var module,
-            element = $(modules[i]),
-            type = camelCaseAndCapitalise(element.data('module')),
-            started = element.data('module-started');
+            element = modules[i],
+            type = camelCaseAndCapitalise(element.getAttribute('data-module')),
+            started = element.hasAttribute('data-module-started');
 
         if (typeof SimpleBe.Modules[type] === "function" && !started) {
           module = new SimpleBe.Modules[type](element);
           module.start();
-          element.data('module-started', true);
+          element.setAttribute('data-module-started', true);
         }
       }
 
@@ -53,4 +53,4 @@
       }
     }
   }
-})(jQuery, window);
+})(window);

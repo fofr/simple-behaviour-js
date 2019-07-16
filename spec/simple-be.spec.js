@@ -3,29 +3,32 @@ describe('Simple behaviour', function() {
   var SimpleBe = window.SimpleBe;
 
   it('finds modules', function() {
-    var module = $('<div data-module="a-module"></div>');
-    $('body').append(module);
+    var module = createModuleElement('a-module');
+    document.body.appendChild(module);
 
     expect(SimpleBe.modules.find().length).toBe(1);
-    expect(SimpleBe.modules.find().eq(0).is('[data-module="a-module"]')).toBe(true);
+    expect(SimpleBe.modules.find()[0].matches('[data-module="a-module"]')).toBe(true);
+
     module.remove();
   });
 
   it('finds modules in a container', function() {
-    var module = $('<div data-module="a-module"></div>'),
-        container = $('<div></div>').append(module);
+    var module = createModuleElement('a-module');
+    var container = document.createElement('div');
+    container.appendChild(module);
 
     expect(SimpleBe.modules.find(container).length).toBe(1);
-    expect(SimpleBe.modules.find(container).eq(0).data('module')).toBe('a-module');
+    expect(SimpleBe.modules.find(container)[0].matches('[data-module="a-module"]')).toBe(true);
   });
 
   it('finds modules that are a container', function() {
-    var module = $('<div data-module="a-module"></div>'),
-        container = $('<div data-module="container-module"></div>').append(module);
+    var module = createModuleElement('a-module');
+    var container = createModuleElement('container-module');
+    container.appendChild(module);
 
     expect(SimpleBe.modules.find(container).length).toBe(2);
-    expect(SimpleBe.modules.find(container).eq(0).data('module')).toBe('container-module');
-    expect(SimpleBe.modules.find(container).eq(1).data('module')).toBe('a-module');
+    expect(SimpleBe.modules.find(container)[0].matches('[data-module="a-module"]')).toBe(true);
+    expect(SimpleBe.modules.find(container)[1].matches('[data-module="container-module"]')).toBe(true);
   });
 
   describe('when a module exists', function() {
@@ -45,16 +48,18 @@ describe('Simple behaviour', function() {
     });
 
     it('starts modules within a container', function() {
-      var module = $('<div data-module="test-alert-module"></div>'),
-          container = $('<div></div>').append(module);
+      var module = createModuleElement('test-alert-module');
+      var container = document.createElement('div');
+      container.appendChild(module);
 
       SimpleBe.modules.start(container);
       expect(callback).toHaveBeenCalled();
     });
 
     it('does not start modules that are already started', function() {
-      var module = $('<div data-module="test-alert-module"></div>'),
-          container = $('<div></div>').append(module);
+      var module = createModuleElement('test-alert-module');
+      var container = document.createElement('div');
+      container.appendChild(module);
 
       SimpleBe.modules.start(module);
       SimpleBe.modules.start(module);
@@ -62,27 +67,37 @@ describe('Simple behaviour', function() {
     });
 
     it('passes the HTML element when initialising a module', function() {
-      var module = $('<div data-module="test-alert-module"></div>'),
-          container = $('<h1></h1>').append(module);
+      var module = createModuleElement('test-alert-module');
+      var container = document.createElement('div');
+      container.appendChild(module);
 
       SimpleBe.modules.start(container);
 
       var args = callback.calls.argsFor(0);
-      expect(args[0].is('div[data-module="test-alert-module"]')).toBe(true);
+      expect(args[0].matches('div[data-module="test-alert-module"]')).toBe(true);
     });
 
     it('starts all modules that are on the page', function() {
-      var modules = $(
-            '<div data-module="test-alert-module"></div>\
-             <strong data-module="test-alert-module"></strong>\
-             <span data-module="test-alert-module"></span>'
-          );
+      var module1 = createModuleElement('test-alert-module');
+      var module2 = createModuleElement('test-alert-module', 'span');
+      var module3 = createModuleElement('test-alert-module', 'h2');
+      var container = document.createElement('div');
 
-      $('body').append(modules);
-      SimpleBe.modules.start();
+      container.appendChild(module1);
+      container.appendChild(module2);
+      container.appendChild(module3);
+
+      SimpleBe.modules.start(container);
       expect(callback.calls.count()).toBe(3);
-
-      modules.remove();
     });
   });
+
+  function createModuleElement(name, element) {
+    element = element || 'div';
+
+    var module = document.createElement(element);
+    module.setAttribute('data-module', name);
+
+    return module;
+  }
 });

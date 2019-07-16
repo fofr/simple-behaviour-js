@@ -14,7 +14,6 @@ module.exports = function(grunt) {
     jasmine: {
       javascripts: {
         src: [
-          'node_modules/jquery/dist/jquery.js',
           'src/**/*.js'
         ],
         options: {
