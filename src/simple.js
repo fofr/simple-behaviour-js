@@ -1,9 +1,9 @@
 (function(root) {
   "use strict";
-  root.SimpleBe = root.SimpleBe || {};
-  SimpleBe.Modules = SimpleBe.Modules || {};
+  root.Simple = root.Simple || {};
+  Simple.Modules = Simple.Modules || {};
 
-  SimpleBe.modules = {
+  Simple.modules = {
     find: function(container) {
       var modules,
           moduleSelector = '[data-module]',
@@ -28,8 +28,8 @@
             type = camelCaseAndCapitalise(element.getAttribute('data-module')),
             started = element.hasAttribute('data-module-started');
 
-        if (typeof SimpleBe.Modules[type] === "function" && !started) {
-          module = new SimpleBe.Modules[type](element);
+        if (typeof Simple.Modules[type] === "function" && !started) {
+          module = new Simple.Modules[type](element);
           module.start();
           element.setAttribute('data-module-started', true);
         }

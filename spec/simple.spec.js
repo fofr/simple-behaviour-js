@@ -1,13 +1,13 @@
 describe('Simple behaviour', function() {
   "use strict";
-  var SimpleBe = window.SimpleBe;
+  var Simple = window.Simple;
 
   it('finds modules', function() {
     var module = createModuleElement('a-module');
     document.body.appendChild(module);
 
-    expect(SimpleBe.modules.find().length).toBe(1);
-    expect(SimpleBe.modules.find()[0].matches('[data-module="a-module"]')).toBe(true);
+    expect(Simple.modules.find().length).toBe(1);
+    expect(Simple.modules.find()[0].matches('[data-module="a-module"]')).toBe(true);
 
     module.remove();
   });
@@ -17,8 +17,8 @@ describe('Simple behaviour', function() {
     var container = document.createElement('div');
     container.appendChild(module);
 
-    expect(SimpleBe.modules.find(container).length).toBe(1);
-    expect(SimpleBe.modules.find(container)[0].matches('[data-module="a-module"]')).toBe(true);
+    expect(Simple.modules.find(container).length).toBe(1);
+    expect(Simple.modules.find(container)[0].matches('[data-module="a-module"]')).toBe(true);
   });
 
   it('finds modules that are a container', function() {
@@ -26,9 +26,9 @@ describe('Simple behaviour', function() {
     var container = createModuleElement('container-module');
     container.appendChild(module);
 
-    expect(SimpleBe.modules.find(container).length).toBe(2);
-    expect(SimpleBe.modules.find(container)[0].matches('[data-module="a-module"]')).toBe(true);
-    expect(SimpleBe.modules.find(container)[1].matches('[data-module="container-module"]')).toBe(true);
+    expect(Simple.modules.find(container).length).toBe(2);
+    expect(Simple.modules.find(container)[0].matches('[data-module="a-module"]')).toBe(true);
+    expect(Simple.modules.find(container)[1].matches('[data-module="container-module"]')).toBe(true);
   });
 
   describe('when a module exists', function() {
@@ -36,7 +36,7 @@ describe('Simple behaviour', function() {
 
     beforeEach(function() {
       callback = jasmine.createSpy();
-      SimpleBe.Modules.TestAlertModule = function(element) {
+      Simple.Modules.TestAlertModule = function(element) {
         this.start = function() {
           callback(element);
         }
@@ -44,7 +44,7 @@ describe('Simple behaviour', function() {
     });
 
     afterEach(function() {
-      delete SimpleBe.Modules.TestAlertModule;
+      delete Simple.Modules.TestAlertModule;
     });
 
     it('starts modules within a container', function() {
@@ -52,7 +52,7 @@ describe('Simple behaviour', function() {
       var container = document.createElement('div');
       container.appendChild(module);
 
-      SimpleBe.modules.start(container);
+      Simple.modules.start(container);
       expect(callback).toHaveBeenCalled();
     });
 
@@ -61,8 +61,8 @@ describe('Simple behaviour', function() {
       var container = document.createElement('div');
       container.appendChild(module);
 
-      SimpleBe.modules.start(module);
-      SimpleBe.modules.start(module);
+      Simple.modules.start(module);
+      Simple.modules.start(module);
       expect(callback.calls.count()).toBe(1);
     });
 
@@ -71,7 +71,7 @@ describe('Simple behaviour', function() {
       var container = document.createElement('div');
       container.appendChild(module);
 
-      SimpleBe.modules.start(container);
+      Simple.modules.start(container);
 
       var args = callback.calls.argsFor(0);
       expect(args[0].matches('div[data-module="test-alert-module"]')).toBe(true);
@@ -87,7 +87,7 @@ describe('Simple behaviour', function() {
       container.appendChild(module2);
       container.appendChild(module3);
 
-      SimpleBe.modules.start(container);
+      Simple.modules.start(container);
       expect(callback.calls.count()).toBe(3);
     });
   });

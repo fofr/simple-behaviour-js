@@ -7,8 +7,8 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> version <%= pkg.version %> */\n'
       },
       build: {
-        src: 'src/simple-be.js',
-        dest: 'build/simple-be.min.js'
+        src: 'src/simple.js',
+        dest: 'build/simple.min.js'
       }
     },
     jasmine: {
