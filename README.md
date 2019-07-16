@@ -12,32 +12,32 @@ Javascript modules can be specified in markup using `data-` attributes:
 </div>
 ```
 
-Include `SimpleBe.js` then find and start these modules by running:
+Include `simple.min.js` then find and start these modules by running:
 
 ```javascript
-SimpleBe.modules.start()
+Simple.modules.start()
 ```
 
-This will attempt to find and start all modules in the page. In this example it will look for a module at `SimpleBe.Modules.SomeModule`. The data attribute gets converted to _PascalCase_.
+This will attempt to find and start all modules in the page. In this example it will look for a module at `Simple.Modules.SomeModule`. The data attribute gets converted to _PascalCase_.
 
 The module will be instantiated and then its `start` method called. The HTML element with the `data-module` attribute is passed as the first argument to the module initialiser. Modules act only within their containing elements.
 
 ```javascript
-module = new SimpleBe.Modules[type]()
+module = new Simple.Modules[type]()
 module.start(element)
 ```
 
-Running `SimpleBe.modules.start()` multiple times will have no additional affect. When a module is started a flag is set on the element using the data attribute `module-started`. `data-module-started` is a reserved attribute.
+Running `Simple.modules.start()` multiple times will have no additional affect. When a module is started a flag is set on the element using the data attribute `module-started`. `data-module-started` is a reserved attribute.
 
-`SimpleBe.modules.start()` can be called with an element to start modules in dynamically loaded content:
+`Simple.modules.start()` can be called with an element to start modules in dynamically loaded content:
 
 ```javascript
-SimpleBe.modules.start(document.querySelector('.dynamic-content'))
+Simple.modules.start(document.querySelector('.dynamic-content'))
 ```
 
 ## Module structure
 
-A module must add its constructor to `SimpleBe.Modules` and it must have a `start` method.
+A module must add its constructor to `Simple.Modules` and it must have a `start` method.
 The simplest module looks like:
 
 ```javascript
@@ -49,7 +49,7 @@ The simplest module looks like:
       // module code
     }
   }
-})(window.SimpleBe.Modules)
+})(window.Simple.Modules)
 ```
 
 ## Writing modules
