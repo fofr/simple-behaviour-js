@@ -12,12 +12,10 @@ Javascript modules can be specified in markup using `data-` attributes:
 </div>
 ```
 
-Include jQuery and `SimpleBe.js` then find and start these modules by running:
+Include `SimpleBe.js` then find and start these modules by running:
 
 ```javascript
-$(document).ready(function(){
-  SimpleBe.modules.start()
-});
+SimpleBe.modules.start()
 ```
 
 This will attempt to find and start all modules in the page. In this example it will look for a module at `SimpleBe.Modules.SomeModule`. The data attribute gets converted to _PascalCase_.
@@ -34,8 +32,7 @@ Running `SimpleBe.modules.start()` multiple times will have no additional affect
 `SimpleBe.modules.start()` can be called with an element to start modules in dynamically loaded content:
 
 ```javascript
-var $container = $('.dynamic-content')
-SimpleBe.modules.start($container)
+SimpleBe.modules.start(document.querySelector('.dynamic-content'))
 ```
 
 ## Module structure
@@ -47,7 +44,7 @@ The simplest module looks like:
 ;(function(Modules) {
   'use strict'
 
-  Modules.SomeModule = function($element) {
+  Modules.SomeModule = function(element) {
     this.start = function() {
       // module code
     }
@@ -72,16 +69,7 @@ Make it clear where a javascript module will be applying behaviour:
 
 ### Declare event listeners at the start
 
-Beginning with a set of event listeners indicates the module’s intentions.
-
-```js
-this.start = function() {
-  $element.on('click', '.js-toggle', toggle)
-  $element.on('click', '.js-cancel', cancel)
-}
-```
-
-Where possible, assign listeners to the module element to minimise the number of listeners and to allow for flexible markup:
+Beginning with a set of event listeners indicates the module’s intentions. Where possible, assign listeners to the module element to minimise the number of listeners and to allow for flexible markup:
 
 ```html
 <div data-module="toggle-thing">
