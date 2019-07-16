@@ -3,8 +3,7 @@ describe('Simple behaviour', function() {
   var SimpleBe = window.SimpleBe;
 
   it('finds modules', function() {
-    var module = document.createElement('div');
-    module.setAttribute('data-module', 'a-module');
+    var module = createModuleElement('a-module');
     document.body.appendChild(module);
 
     expect(SimpleBe.modules.find().length).toBe(1);
@@ -14,10 +13,8 @@ describe('Simple behaviour', function() {
   });
 
   it('finds modules in a container', function() {
-    var module = document.createElement('div');
+    var module = createModuleElement('a-module');
     var container = document.createElement('div');
-
-    module.setAttribute('data-module', 'a-module');
     container.appendChild(module);
 
     expect(SimpleBe.modules.find(container).length).toBe(1);
@@ -25,11 +22,8 @@ describe('Simple behaviour', function() {
   });
 
   it('finds modules that are a container', function() {
-    var module = document.createElement('div');
-    var container = document.createElement('div');
-
-    module.setAttribute('data-module', 'a-module');
-    container.setAttribute('data-module', 'container-module');
+    var module = createModuleElement('a-module');
+    var container = createModuleElement('container-module');
     container.appendChild(module);
 
     expect(SimpleBe.modules.find(container).length).toBe(2);
@@ -54,10 +48,8 @@ describe('Simple behaviour', function() {
     });
 
     it('starts modules within a container', function() {
-      var module = document.createElement('div');
+      var module = createModuleElement('test-alert-module');
       var container = document.createElement('div');
-
-      module.setAttribute('data-module', 'test-alert-module');
       container.appendChild(module);
 
       SimpleBe.modules.start(container);
@@ -65,10 +57,8 @@ describe('Simple behaviour', function() {
     });
 
     it('does not start modules that are already started', function() {
-      var module = document.createElement('div');
+      var module = createModuleElement('test-alert-module');
       var container = document.createElement('div');
-
-      module.setAttribute('data-module', 'test-alert-module');
       container.appendChild(module);
 
       SimpleBe.modules.start(module);
@@ -77,10 +67,8 @@ describe('Simple behaviour', function() {
     });
 
     it('passes the HTML element when initialising a module', function() {
-      var module = document.createElement('div');
+      var module = createModuleElement('test-alert-module');
       var container = document.createElement('div');
-
-      module.setAttribute('data-module', 'test-alert-module');
       container.appendChild(module);
 
       SimpleBe.modules.start(container);
@@ -90,14 +78,10 @@ describe('Simple behaviour', function() {
     });
 
     it('starts all modules that are on the page', function() {
-      var module1 = document.createElement('div');
-      var module2 = document.createElement('h2');
-      var module3 = document.createElement('span');
+      var module1 = createModuleElement('test-alert-module');
+      var module2 = createModuleElement('test-alert-module', 'span');
+      var module3 = createModuleElement('test-alert-module', 'h2');
       var container = document.createElement('div');
-
-      module1.setAttribute('data-module', 'test-alert-module');
-      module2.setAttribute('data-module', 'test-alert-module');
-      module3.setAttribute('data-module', 'test-alert-module');
 
       container.appendChild(module1);
       container.appendChild(module2);
@@ -107,4 +91,13 @@ describe('Simple behaviour', function() {
       expect(callback.calls.count()).toBe(3);
     });
   });
+
+  function createModuleElement(name, element) {
+    element = element || 'div';
+
+    var module = document.createElement(element);
+    module.setAttribute('data-module', name);
+
+    return module;
+  }
 });
